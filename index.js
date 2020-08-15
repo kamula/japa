@@ -1,24 +1,33 @@
-const readline = require("readline")
-const prompt = require('prompt-sync')();
 const fs = require("fs")
+const readline = require("readline").createInterface({
+    input:process.stdin,
+    output:process.stdin
+})
 
+//create file
+const createfile =(name)=>{
+    fs.writeFile("Readme.md",name+"\n",(err)=>{
+        if(err) throw err
+    })
+
+}
+//append content to file
 const appendtofile = (name) =>{
     fs.appendFile("Readme.md",name+"\n",(err)=>{
         if(err) throw err
-        
     })
-    
 }
 
 
-const title = prompt("Enter project title: ")
-appendtofile(title)
-const description = prompt("Enter project description: ")
-appendtofile(description)
-const installation = prompt("describe your project: ")
-appendtofile(installation)
-const license = prompt("Enter license: ")
-appendtofile(license)
+readline.question("Enter project name: ",(pname)=>{
+    createfile(pname)
+    readline.question("Enter installation guide: ",(installation)=>{
+        appendtofile(installation)
+        readline.question("Enter license: ",(license)=>{
+            appendtofile(license)
+            readline.close()
+        })
+    })
 
-console.log("contents saved successfully")
-
+    
+})
